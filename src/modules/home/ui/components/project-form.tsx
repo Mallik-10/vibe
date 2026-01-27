@@ -15,6 +15,9 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "../../constants";
+import { useClerk } from "@clerk/nextjs";
+import {dark} from "@clerk/themes"
+import { useCurrentTheme } from "@/hooks/use-current-theme";
 
 const formSchema = z.object({
   value: z
@@ -27,6 +30,8 @@ export const ProjectForm = () => {
   const router = useRouter();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const clerk = useClerk();
+  const currentTheme = useCurrentTheme()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,8 +47,15 @@ export const ProjectForm = () => {
         router.push(`/projects/${data.id}`);
       },
       onError: (error) => {
-        //Redirect to pricing page for that specific query
         toast.error(error.message);
+        if(error.data?.code === "UNAUTHORIZED") {
+          clerk.openSignIn({
+            appearance: {
+              baseTheme: currentTheme === "dark" ? dark : undefined,
+            }
+          });
+        }
+        //Redirect to pricing page for that specific query
       },
     }),
   );
