@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
+import { consumeCredits } from "@/lib/usage";
 import { protectedProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
 import { CarTaxiFront } from "lucide-react";
@@ -16,7 +17,7 @@ export const messagesRouter = createTRPCRouter({
   .query(async ({input, ctx}) => {
     const messages = await prisma.message.findMany({
       where: {
-        id: input.projectId,
+        projectId: input.projectId,
         project: {userId: ctx.auth.userId}
       },
       include: {
@@ -48,6 +49,19 @@ export const messagesRouter = createTRPCRouter({
 
       if (!existingProject) {
         throw new TRPCError({code: "NOT_FOUND", message: "Project not found" })
+      }
+
+      try{
+        await consumeCredits();
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new TRPCError({code: "BAD_REQUEST", message: "Something went wrong"})
+        } else {
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: "You have ran out of credits"
+          })
+        }
       }
 
       const createdMessage = await prisma.message.create({

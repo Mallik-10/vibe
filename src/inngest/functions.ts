@@ -144,6 +144,8 @@ export const codeAgentFunction = inngest.createFunction(
         },
       },
     });
+
+
     const network = createNetwork<AgentState>({
       name: "coding-agent-network",
       agents: [codeAgent],
