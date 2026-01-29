@@ -8,6 +8,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import {Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {ErrorBoundary} from "react-error-boundary"
 import { Suspense, useState } from "react";
 import { MessagesContainer } from "../components/message-container";
 import { Fragment } from "@/generated/prisma";
@@ -19,6 +20,7 @@ import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
+import { InlineError } from "@/lib/inline-errors";
 
 interface Props {
   projectId: string;
@@ -38,15 +40,19 @@ export const ProjectView = ({ projectId }: Props) => {
           minSize={20}
           className="flex flex-col min-h-0"
         >
-          <Suspense fallback={<p>Loading Project...</p>}>
-            <ProjectHeader projectId={projectId} />
-          </Suspense>
+          <ErrorBoundary fallback={<InlineError />}>
+            <Suspense fallback={<p>Loading Project...</p>}>
+              <ProjectHeader projectId={projectId} />
+            </Suspense>
+          </ErrorBoundary>
 
-          <Suspense fallback={<p>Loading messages...</p>}>
-            <MessagesContainer projectId={projectId}
-            activeFragment={activeFragment}
-            setActiveFragment={setActiveFragment} />
-          </Suspense>
+          <ErrorBoundary fallback={<InlineError />}>
+            <Suspense fallback={<p>Loading messages...</p>}>
+              <MessagesContainer projectId={projectId}
+              activeFragment={activeFragment}
+              setActiveFragment={setActiveFragment} />
+            </Suspense>
+          </ErrorBoundary>
         </ResizablePanel>
         <ResizableHandle className="hover:bg-primary transition-colors" />
         <ResizablePanel defaultSize={65} minSize={50}
