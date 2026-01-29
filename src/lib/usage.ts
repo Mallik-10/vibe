@@ -41,5 +41,5 @@ export async function getUsageStatus() {
     }
     const usageTracker = await getUsageTracker();
     const result = await usageTracker.get(userId);
-    return result;
+    return result ?? { consumedPoints: 0, remainingPoints: usageTracker.points };
 }

@@ -39,7 +39,7 @@ export default function ErrorPage() {
             className="group flex w-full items-center justify-center gap-2 border-2 border-border bg-primary px-6 py-4 font-mono font-bold text-primary-foreground shadow-sm transition-all hover:-translate-y-1 hover:shadow-md active:translate-y-0 active:shadow-none"
           >
             <RotateCw size={20} className="group-hover:rotate-180 transition-transform duration-500" />
-            REBOOT SYSTEM
+            RESTART VIBES !!
           </button>
 
           <Link 
@@ -54,7 +54,7 @@ export default function ErrorPage() {
         {/* Subtle Decorative Footer */}
         <div className="mt-8 flex justify-between font-mono text-[10px] uppercase opacity-40">
           <span>Err_Log_V4.0</span>
-          <span>Terminal: {new Date().getHours()}:{new Date().getMinutes()}</span>
+          <span>Terminal: Timing not described..</span>
         </div>
       </div>
 

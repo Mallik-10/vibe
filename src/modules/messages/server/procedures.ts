@@ -3,7 +3,6 @@ import prisma from "@/lib/db";
 import { consumeCredits } from "@/lib/usage";
 import { protectedProcedure, createTRPCRouter } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import { CarTaxiFront } from "lucide-react";
 import { z } from "zod";
 
 export const messagesRouter = createTRPCRouter({
