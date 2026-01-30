@@ -9,7 +9,7 @@ import "./code-theme.css";
 
 interface Props {
   code: string;
-  lang: String;
+  lang: string;
 }
 
 export const Codeview = ({ code, lang }: Props) => {
