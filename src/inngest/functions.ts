@@ -1,6 +1,5 @@
 import { inngest } from "./client";
 import {
-  Agent,
   createAgent,
   createNetwork,
   createState,

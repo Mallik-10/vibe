@@ -24,6 +24,7 @@ export const Usage = ({ points, msBeforeNext }: Props) => {
         { format: ["months", "days", "hours"] },
       );
     } catch (error) {
+      console.error("Failed to format duration:", error);
       return "unknown";
     }
   }, [msBeforeNext]);
