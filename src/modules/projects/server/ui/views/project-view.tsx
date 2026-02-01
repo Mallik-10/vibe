@@ -11,8 +11,8 @@ import { Suspense, useState } from "react";
 import { MessagesContainer } from "../components/message-container";
 import { Fragment } from "@/generated/prisma";
 import { ProjectHeader } from "../components/project-header";
-import { FragmentWeb } from "../components/fragment-web";
-import { CodeIcon, CrownIcon, EyeIcon } from "lucide-react";
+import { FragmentView } from "../components/fragment-web";
+import { CodeIcon, CrownIcon, EyeIcon, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FileExplorer } from "@/components/file-explorer";
@@ -39,13 +39,13 @@ export const ProjectView = ({ projectId }: Props) => {
           className="flex flex-col min-h-0"
         >
           <ErrorBoundary fallback={<InlineError />}>
-            <Suspense fallback={<p>Loading Project...</p>}>
+            <Suspense fallback={<p className="p-2.5 items-center justify-start"> Name of the project...</p>}>
               <ProjectHeader projectId={projectId} />
             </Suspense>
           </ErrorBoundary>
 
           <ErrorBoundary fallback={<InlineError />}>
-            <Suspense fallback={<p>Loading messages...</p>}>
+            <Suspense fallback={<div className="flex flex-1 h-full items-center justify-center"> <Loader2Icon  className="animate-spin" /></div>}>
               <MessagesContainer projectId={projectId}
               activeFragment={activeFragment}
               setActiveFragment={setActiveFragment} />
@@ -82,7 +82,7 @@ export const ProjectView = ({ projectId }: Props) => {
               </div>
             </div>
             <TabsContent value="preview">
-              {!!activeFragment && <FragmentWeb  data={activeFragment}/>}
+              {!!activeFragment && <FragmentView  data={activeFragment}/>}
             </TabsContent>
             <TabsContent value="code" className="min-h-0">
               {!!activeFragment?.files && (

@@ -19,7 +19,9 @@ const Page = () => {
           <ProjectForm />
         </div>
       </section>
-      <ProjectList />
+      <div className="p-6 bg-none border-none  transition-all duration-500 hover:shadow-accent hover:-translate-y-10 hover:border-accent-foreground">
+        <ProjectList />
+      </div>
     </div>
   )
 }
